@@ -1,8 +1,7 @@
 // import { createReducer } from "@reduxjs/toolkit";
 // import { addNewContact } from "./actions";
-import shortid from "shortid";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const initialState = {
     contacts: {
@@ -16,37 +15,37 @@ const initialState = {
     }
 };
 
-export const phonebookReducer = (state = initialState, action) => {
-    // console.log(state);
-    console.log(action);
-    
-    if (!action.payload) {
-        return state;
-    };
-
-    const { items } = state.contacts;
-    const { name, number } = action.payload;
-    
-    const checkContact = items.some(contact => contact.name.toLowerCase() === name.toLowerCase());
-    if (checkContact === true) {
-        toast.warn(`${name} is already in contacts`, { theme: "colored", });
-        return state;
-    };
-
-    const newContact = {
-        id: shortid.generate(),
-        name,
-        number,
-    };
+const phonebookReducer = (state = initialState, action) => {
     switch (action.type) {
         case "contact/addNewContact":
             return {
                 contacts: {
                     ...state.contacts,
-                    items: [newContact, ...state.contacts.items],
+                    items: [action.payload, ...state.contacts.items],
+                }
+            };
+        case "contact/deleteContact":
+            return {
+                contacts: {
+                    ...state.contacts,
+                    items: state.contacts.items.filter(contact => contact.id !== action.payload)
+                }
+            };
+        case "filter/setFilter":
+            return {
+                contacts: {
+                    ...state.contacts,
+                    filter: action.payload,
                 }
             };
         default:
             return state;
     };
 };
+
+const persistConfig = {
+    key: 'root',
+    storage,
+};
+
+export const persistedReducer = persistReducer(persistConfig, phonebookReducer);

@@ -1,18 +1,31 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
 import { ContactFormStyle, LabelForm, InputForm, ButtonForAdd } from "components/ContactForm/ContactForm.styled";
-import { useDispatch } from "react-redux";
+import shortid from "shortid";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from "react-redux";
 import { addNewContact } from "redux/actions";
+import { getContacts } from "redux/selector";
 
 export const ContactForm = () => {
-    const dispatch = useDispatch();
-
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     
+    const contacts = useSelector(getContacts);
+    const dispatch = useDispatch();
+    
     const onSubmitForm = (event) => {
         event.preventDefault();
-        dispatch(addNewContact({ name, number }));
+        const checkContact = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
+        if (checkContact === true) {
+            return toast.warn(`${name} is already in contacts`, { theme: "colored", });
+        };
+        const newContact = {
+            id: shortid.generate(),
+            name,
+            number,
+        };
+        dispatch(addNewContact(newContact));
         reset();
     };
     const reset = () => {
@@ -49,6 +62,6 @@ export const ContactForm = () => {
     );
 };
 
-ContactForm.propTypes = {
-    addNewContact: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//     addNewContact: PropTypes.func.isRequired,
+// };
