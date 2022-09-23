@@ -12,7 +12,7 @@ export const App = () => {
   const contacts = useSelector(getContacts);
 
   return (
-    <Box as="section"
+    <Box as="main"
       mx="auto"
       my="200px"
       width="340px"
@@ -23,11 +23,11 @@ export const App = () => {
       borderColor="almostDarkGreen"
       boxShadow="shadow"
     >
-      <Box as="div" mb={5}>
+      <Box as="section" mb={5}>
         <MainTitle>Phonebook</MainTitle>
         <ContactForm />
       </Box>
-      <Box as="div">
+      <Box as="section">
         <ContactsTitle>Contacts</ContactsTitle>
         {contacts.length !== 0
           ? <>
