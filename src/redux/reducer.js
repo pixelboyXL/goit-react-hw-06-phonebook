@@ -1,10 +1,12 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { addNewContact, deleteContact, setFilter } from "./actions";
+// Код для редюсера на Redux Toolkit + createSlice👇
+
+import { createSlice } from "@reduxjs/toolkit";
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const initialState = {
-    contacts: {
+const phonebookSlice = createSlice({
+    name: "contacts",
+    initialState: {
         items: [
             { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
             { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -12,27 +14,72 @@ const initialState = {
             { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
         ],
         filter: '',
-    }
-};
-
-const phonebookReducer = createReducer(initialState, {
-    [addNewContact](state, action) {
-        state.contacts.items.splice(0, 0, action.payload);
     },
-    [deleteContact](state, action) {
-        state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload);
-    },
-    [setFilter](state, action) {
-        state.contacts.filter = action.payload;
+    reducers: {
+        addNewContact(state, action) { 
+            state.items.splice(0, 0, action.payload);
+        },
+        deleteContact(state, action) {
+            state.items = state.items.filter(contact => contact.id !== action.payload);
+        },
+        setFilter(state, action) {
+            state.filter = action.payload;
+        },
     },
 });
 
+export const { addNewContact, deleteContact, setFilter } = phonebookSlice.actions;
+const phonebookReducer = phonebookSlice.reducer;
+
 const persistConfig = {
-    key: 'root',
+    key: 'contacts',
     storage,
 };
 
 export const persistedReducer = persistReducer(persistConfig, phonebookReducer);
+
+// Код для редюсера на Redux Toolkit + createReducer + createAction👇
+
+// import { addNewContact, deleteContact, setFilter } from "./actions";
+// import { persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage';
+
+// const initialState = {
+//     contacts: {
+//         items: [
+//             { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+//             { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+//             { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+//             { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+//         ],
+//         filter: '',
+//     }
+// };
+
+// const phonebookReducer = createReducer(initialState, {
+//     [addNewContact](state, action) {
+//         state.contacts.items.splice(0, 0, action.payload);
+//     },
+//     [deleteContact](state, action) {
+//         state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload);
+//     },
+//     [setFilter](state, action) {
+//         state.contacts.filter = action.payload;
+//     },
+// });
+
+// const persistConfig = {
+//     key: 'contacts',
+//     storage,
+// };
+
+// export const persistedReducer = persistReducer(persistConfig, phonebookReducer);
+
+
+
+//                                  *************************                                       //
+
+
 
 // Код для редюсера на чистому Redux👇
 
@@ -80,7 +127,7 @@ export const persistedReducer = persistReducer(persistConfig, phonebookReducer);
 // };
 
 // const persistConfig = {
-//     key: 'root',
+//     key: 'contacts',
 //     storage,
 // };
 

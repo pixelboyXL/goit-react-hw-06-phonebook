@@ -34,7 +34,7 @@ export const App = () => {
             <Filter />
             <ContactList />
           </>
-          : <WarningMessage>Looks like you don`t have any contacts yet or just clear them all. Please add new contact.</WarningMessage>}
+          : <WarningMessage>Looks like you don`t have any contacts yet or just clear them all. Please add new contact🤔</WarningMessage>}
       </Box>
       <GlobalStyle />
       <ToastContainer autoClose={3000}/>

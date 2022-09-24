@@ -4,8 +4,9 @@ import shortid from "shortid";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
-import { addNewContact } from "redux/actions";
 import { getContacts } from "redux/selector";
+import { addNewContact } from "redux/reducer";
+// import { addNewContact } from "redux/actions";
 
 export const ContactForm = () => {
     const [name, setName] = useState('');
@@ -18,6 +19,7 @@ export const ContactForm = () => {
         event.preventDefault();
         const checkContact = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
         if (checkContact === true) {
+            reset();
             return toast.warn(`${name} is already in contacts`, { theme: "colored", });
         };
         const newContact = {

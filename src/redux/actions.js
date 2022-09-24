@@ -1,8 +1,16 @@
-import { createAction } from "@reduxjs/toolkit";
+// Код для екшенів на Redux Toolkit + createReducer + createAction👇
 
-export const addNewContact = createAction("contact/addNewContact");
-export const deleteContact = createAction("contact/deleteContact");
-export const setFilter = createAction("filter/setFilter");
+// import { createAction } from "@reduxjs/toolkit";
+
+// export const addNewContact = createAction("contact/addNewContact");
+// export const deleteContact = createAction("contact/deleteContact");
+// export const setFilter = createAction("filter/setFilter");
+
+
+
+//                                  *************************                                       //
+
+
 
 // Код для екшенів на чистому Redux👇
 
