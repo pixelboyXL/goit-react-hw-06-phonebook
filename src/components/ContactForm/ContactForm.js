@@ -63,7 +63,3 @@ export const ContactForm = () => {
         </ContactFormStyle>
     );
 };
-
-// ContactForm.propTypes = {
-//     addNewContact: PropTypes.func.isRequired,
-// };
